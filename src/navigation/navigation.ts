@@ -1,5 +1,9 @@
 import {Keyboard} from 'react-native';
-import {StackActions} from '@react-navigation/native';
+import {
+  StackActions,
+  CommonActions,
+  TabActions,
+} from '@react-navigation/native';
 
 class NavigationServices {
   private navigation: any;
@@ -15,18 +19,39 @@ class NavigationServices {
     return this.navigationInstanse;
   }
 
-  public backToHome() {
+  public navigate(screenName: string, params: any) {
+    Keyboard.dismiss();
+    this.navigation.dispatch(
+      CommonActions.navigate({
+        name: screenName,
+        params: params,
+      }),
+    );
+  }
+
+  public goBack() {
+    Keyboard.dismiss();
+    this.navigation.dispatch(CommonActions.goBack());
+  }
+
+  public popToTop() {
     Keyboard.dismiss();
     this.navigation.dispatch(StackActions.popToTop());
   }
 
-  public pushToScreen(screenName: string, params: any) {
+  public push(screenName: string, params: any) {
     Keyboard.dismiss();
     this.navigation.dispatch(StackActions.push(screenName, params));
   }
 
-  public popScreen() {
+  public pop() {
+    Keyboard.dismiss();
     this.navigation.dispatch(StackActions.pop(1));
+  }
+
+  public jumpTo(screenName: string, params: any) {
+    Keyboard.dismiss();
+    this.navigation.dispatch(TabActions.jumpTo(screenName, params));
   }
 
   public useNavigation() {
