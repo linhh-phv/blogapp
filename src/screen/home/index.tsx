@@ -5,6 +5,7 @@ import {selectState} from '../../redux/reducers';
 import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {POSTS_SCREEN} from '../../constants/screenKeys';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 const HomeScreen = (props: any) => {
   const {signin, app} = selectState(state => state);
@@ -43,16 +44,25 @@ const HomeScreen = (props: any) => {
   };
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Icon name="user" />
-      <Text>Hi {name}</Text>
-      <TouchableOpacity onPress={() => pressVideoChat()}>
-        <Text>Video Chat</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() => pressLogout()}>
-        <Text>Logout</Text>
-      </TouchableOpacity>
-    </View>
+    <>
+      <SafeAreaView style={{flex: 1}}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}>
+          <Icon name="user" />
+          <Text>Hi {name}</Text>
+          <TouchableOpacity onPress={() => pressVideoChat()}>
+            <Text>Video Chat</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => pressLogout()}>
+            <Text>Logout</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 export default HomeScreen;

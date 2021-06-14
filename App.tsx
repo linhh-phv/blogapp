@@ -17,11 +17,7 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hide();
   });
-  return (
-    <SafeAreaView style={{flex: 1}}>
-      <AppContainer />
-    </SafeAreaView>
-  );
+  return <AppContainer />;
 };
 
 export default App;

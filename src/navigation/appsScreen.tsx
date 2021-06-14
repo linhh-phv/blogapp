@@ -1,6 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useSafeArea} from 'react-native-safe-area-context';
 
 import {
   HOME_SCREEN,
@@ -12,6 +13,10 @@ import HomeScreen from '../screen/home';
 import ProfileScreen from '../screen/profile';
 import PostsScreen from '../screen/posts';
 import SettingScreen from '../screen/setting';
+import {StyleSheet, Platform} from 'react-native';
+import TabsUI from '../components/BottomTab/TabsUI';
+import TabBarIcon from '../components/BottomTab/TabBarIcon';
+import {Mixins} from '../styles';
 
 const HomeStackNavigator = createStackNavigator();
 const PostsStackNavigator = createStackNavigator();
@@ -97,32 +102,86 @@ const tabScreen = [
     name: HOME_SCREEN,
     component: HomeStack,
     title: 'Home',
+    icon: 'home',
+    color: '#7F5DF0',
+    isPosts: false,
   },
   {
     name: POSTS_SCREEN,
     component: PostsStack,
     title: 'Posts',
+    icon: 'form',
+    color: '#7F5DF0',
+    isPosts: true,
   },
   {
     name: PROFILE_SCREEN,
     component: ProfileStack,
     title: 'Profile',
+    icon: 'wallet',
+    color: '#7F5DF0',
+    isPosts: false,
   },
 ];
+// const tabs = [{ name: 'A' },{ name: 'B' }, { name: 'C' }, { name: 'D' }, { name: 'E' }];
 
 const AppsScreens = () => {
+  const {bottom} = useSafeArea();
+
   return (
-    <Tab.Navigator>
+    // <Tab.Navigator tabBar={props => <TabsUI {...{tabScreen:tabs, ...props}} />}>
+    <Tab.Navigator
+      tabBarOptions={{
+        showLabel: false,
+        style: [
+          {
+            position: 'absolute',
+            borderRadius: 15,
+            height: Mixins.scaleSize(70),
+            ...styles.shadow,
+          },
+          Mixins.dimensions(
+            null,
+            20,
+            Platform.OS == 'android' ? Mixins.scaleSize(25) : bottom,
+            20,
+            '',
+          ),
+        ],
+      }}>
       {tabScreen.map((item, key) => (
         <Tab.Screen
           key={key}
           name={item.name}
           component={item.component}
-          options={{title: item.title}}
+          options={{
+            title: item.title,
+            tabBarIcon: ({focused}) => (
+              <TabBarIcon
+                icon={item.icon}
+                colorActive={item.color}
+                colorNonActive={'#000'}
+                sizeMax={1.2}
+                sizeMin={Mixins.scaleSize(25)}
+                focused={focused}
+                isPosts={item.isPosts}
+              />
+            ),
+          }}
         />
       ))}
     </Tab.Navigator>
   );
 };
 
+const styles = StyleSheet.create({
+  shadow: Mixins.boxShadow(
+    '#7F5DF0',
+    0,
+    10,
+    3.5,
+    0.25,
+    Platform.OS == 'android' ? 10 : 5,
+  ),
+});
 export default AppsScreens;
