@@ -17,6 +17,7 @@ import {StyleSheet, Platform} from 'react-native';
 import TabsUI from '../components/BottomTab/TabsUI';
 import TabBarIcon from '../components/BottomTab/TabBarIcon';
 import {Mixins} from '../styles';
+import {selectState} from '../redux/reducers';
 
 const HomeStackNavigator = createStackNavigator();
 const PostsStackNavigator = createStackNavigator();
@@ -105,6 +106,7 @@ const tabScreen = [
     icon: 'home',
     color: '#7F5DF0',
     isPosts: false,
+    isProfile: false,
   },
   {
     name: POSTS_SCREEN,
@@ -113,6 +115,7 @@ const tabScreen = [
     icon: 'form',
     color: '#7F5DF0',
     isPosts: true,
+    isProfile: false,
   },
   {
     name: PROFILE_SCREEN,
@@ -121,34 +124,39 @@ const tabScreen = [
     icon: 'wallet',
     color: '#7F5DF0',
     isPosts: false,
+    isProfile: true,
   },
 ];
 // const tabs = [{ name: 'A' },{ name: 'B' }, { name: 'C' }, { name: 'D' }, { name: 'E' }];
 
 const AppsScreens = () => {
   const {bottom} = useSafeArea();
-
+  const {hideTabBar} = selectState(state => state.app);
   return (
     // <Tab.Navigator tabBar={props => <TabsUI {...{tabScreen:tabs, ...props}} />}>
     <Tab.Navigator
-      tabBarOptions={{
-        showLabel: false,
-        style: [
-          {
-            position: 'absolute',
-            borderRadius: 15,
-            height: Mixins.scaleSize(70),
-            ...styles.shadow,
-          },
-          Mixins.dimensions(
-            null,
-            20,
-            Platform.OS == 'android' ? Mixins.scaleSize(25) : bottom,
-            20,
-            '',
-          ),
-        ],
-      }}>
+      tabBarOptions={
+        hideTabBar
+          ? {
+              showLabel: false,
+              style: [
+                {
+                  position: 'absolute',
+                  borderRadius: 15,
+                  height: Mixins.scaleSize(70),
+                  ...styles.shadow,
+                },
+                Mixins.dimensions(
+                  null,
+                  20,
+                  Platform.OS == 'android' ? Mixins.scaleSize(25) : bottom,
+                  20,
+                  '',
+                ),
+              ],
+            }
+          : undefined
+      }>
       {tabScreen.map((item, key) => (
         <Tab.Screen
           key={key}
@@ -156,17 +164,20 @@ const AppsScreens = () => {
           component={item.component}
           options={{
             title: item.title,
-            tabBarIcon: ({focused}) => (
-              <TabBarIcon
-                icon={item.icon}
-                colorActive={item.color}
-                colorNonActive={'#000'}
-                sizeMax={1.2}
-                sizeMin={Mixins.scaleSize(25)}
-                focused={focused}
-                isPosts={item.isPosts}
-              />
-            ),
+            tabBarIcon: ({focused}) =>
+              hideTabBar ? (
+                <TabBarIcon
+                  icon={item.icon}
+                  colorActive={item.color}
+                  colorNonActive={'#000'}
+                  sizeMax={1.2}
+                  sizeMin={Mixins.scaleSize(25)}
+                  focused={focused}
+                  isPosts={item.isPosts}
+                  isProfile={item.isProfile}
+                />
+              ) : undefined,
+            tabBarVisible: hideTabBar,
           }}
         />
       ))}

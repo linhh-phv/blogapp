@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Image, StyleSheet, Platform, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import images from '../../assets/images';
 import {Mixins} from '../../styles';
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
   sizeMin: number;
   focused: boolean;
   isPosts: boolean;
+  isProfile: boolean;
 }
 const TabBarIcon = (props: Props) => {
   const {
@@ -21,12 +23,14 @@ const TabBarIcon = (props: Props) => {
     sizeMin,
     focused,
     isPosts,
+    isProfile,
   } = props;
   return (
     <>
       {isPosts ? (
         <View
           style={{
+            backgroundColor: 'red',
             width: !focused
               ? Mixins.scaleSize(70)
               : Mixins.scaleSize(70) * sizeMax,
@@ -41,7 +45,7 @@ const TabBarIcon = (props: Props) => {
             ...styles.shadow,
           }}>
           <Image
-            source={{uri: 'https://reactjs.org/logo-og.png'}}
+            source={images.ic_tabar_posts}
             style={{width: '100%', height: '100%', borderRadius: 50}}
           />
         </View>
@@ -55,11 +59,29 @@ const TabBarIcon = (props: Props) => {
               top: Platform.OS == 'android' ? 0 : Mixins.scaleSize(15),
             },
           ]}>
-          <Icon
-            name={icon}
-            color={focused ? colorActive : colorNonActive}
-            size={focused ? sizeMin * sizeMax : sizeMin}
-          />
+          {isProfile ? (
+            <View
+              style={{
+                width: !focused
+                  ? Mixins.scaleSize(35)
+                  : Mixins.scaleSize(35) * sizeMax,
+                height: !focused
+                  ? Mixins.scaleSize(35)
+                  : Mixins.scaleSize(35) * sizeMax,
+                borderRadius: 50,
+              }}>
+              <Image
+                source={images.ic_tabar_profile}
+                style={{width: '100%', height: '100%', borderRadius: 50}}
+              />
+            </View>
+          ) : (
+            <Icon
+              name={icon}
+              color={focused ? colorActive : colorNonActive}
+              size={focused ? sizeMin * sizeMax : sizeMin}
+            />
+          )}
         </View>
       )}
     </>

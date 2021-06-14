@@ -1,6 +1,8 @@
 import {
   ActionTypes,
+  IActionHideTabarPayload,
   IActionSavePayload,
+  IActionTypeHideTabBar,
   IActionTypeSaveNavigationServices,
 } from './index';
 
@@ -11,6 +13,14 @@ export function saveNavigationServicesAction(
 ): IActionTypeSaveNavigationServices {
   return {
     type: ActionTypes.SAVE_NAVIGATION_SERVICES,
+    payload,
+  };
+}
+export function hideTabBarAction(
+  payload: IActionHideTabarPayload,
+): IActionTypeHideTabBar {
+  return {
+    type: ActionTypes.HIDE_TAB_BAR,
     payload,
   };
 }
