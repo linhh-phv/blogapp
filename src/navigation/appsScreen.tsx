@@ -18,6 +18,7 @@ import TabsUI from '../components/BottomTab/TabsUI';
 import TabBarIcon from '../components/BottomTab/TabBarIcon';
 import {Mixins} from '../styles';
 import {selectState} from '../redux/reducers';
+import titleScreen from '../constants/titleKeys';
 
 const HomeStackNavigator = createStackNavigator();
 const PostsStackNavigator = createStackNavigator();
@@ -102,7 +103,7 @@ const tabScreen = [
   {
     name: HOME_SCREEN,
     component: HomeStack,
-    title: 'Home',
+    title: titleScreen.home,
     icon: 'home',
     color: '#7F5DF0',
     isPosts: false,
@@ -111,7 +112,7 @@ const tabScreen = [
   {
     name: POSTS_SCREEN,
     component: PostsStack,
-    title: 'Posts',
+    title: titleScreen.posts,
     icon: 'form',
     color: '#7F5DF0',
     isPosts: true,
@@ -120,7 +121,7 @@ const tabScreen = [
   {
     name: PROFILE_SCREEN,
     component: ProfileStack,
-    title: 'Profile',
+    title: titleScreen.profile,
     icon: 'wallet',
     color: '#7F5DF0',
     isPosts: false,
