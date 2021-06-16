@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback,
   Platform,
   TouchableNativeFeedback,
+  StatusBar,
 } from 'react-native';
 import {logoutAction} from '../../modules/signin/actions';
 import {hideTabBarAction} from '../../modules/app/actions';
@@ -18,9 +19,11 @@ import {selectState} from '../../redux/reducers';
 import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {POSTS_SCREEN} from '../../constants/screenKeys';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {ScrollView} from 'react-native-gesture-handler';
 import {useRoute, useIsFocused} from '@react-navigation/native';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {Header} from '@react-navigation/stack';
+import MyHeader from '../../components/header';
+import titleScreen from '../../constants/titleKeys';
 
 const HomeScreen = (props: any) => {
   const {signin, app} = selectState(state => state);
@@ -33,10 +36,12 @@ const HomeScreen = (props: any) => {
     console.log('loged out');
     // setLoading(false);
   };
+
   const logoutFail = (error: any) => {
     // Alert.alert(`${error?.message}`);
     // setLoading(false);
   };
+  
   useEffect(() => {
     if (isFocused) {
       dispatch(
@@ -62,71 +67,38 @@ const HomeScreen = (props: any) => {
   const pressVideoChat = () => {
     navigationServices?.navigate(POSTS_SCREEN, {he: 'heeh'});
   };
-  const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
+
+  const _pressSearch = () => {
+    alert('seatch');
+  };
+
+  const _pressSearch2 = () => {
+    alert('seatch');
+  };
 
   return (
     <>
-      <SafeAreaView style={{flex: 1}}>
-        {/* <ScrollView keyboardShouldPersistTaps="never"> */}
-        <KeyboardAvoidingView
-          // behavior={Platform.OS == 'ios' ? 'padding' : 'padding'}
-          // behavior="position"
-          // keyboardVerticalOffset={keyboardVerticalOffset}
-          style={{
-            flex: 1,
-            // backgroundColor: 'red'
-          }}
-          behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-          keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
-          {/* <TouchableWithoutFeedback
-            style={{backgroundColor: 'red', flex: 1}}
-            onPress={() => {
-              Keyboard.dismiss();
-              // dispatch(
-              //   hideTabBarAction({
-              //     hideTabBar: true,
-              //     // onFail: error => logoutFail(error),
-              //     // onSuccess: result => logoutSuccess(),
-              //   }),
-              // );
-            }}> */}
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-            <Icon name="user" />
-            <Text>Hi {name}</Text>
-            <TouchableOpacity onPress={() => pressVideoChat()}>
-              <Text>Video Chat</Text>
-            </TouchableOpacity>
-
-            <TextInput
-              placeholder="ok"
-              disableFullscreenUI={true}
-              onFocus={() => {
-                // dispatch(
-                //   hideTabBarAction({
-                //     hideTabBar: false,
-                //     // onFail: error => logoutFail(error),
-                //     // onSuccess: result => logoutSuccess(),
-                //   }),
-                // );
-              }}
-              value={`${hideTabBar}`}
-              // onBlur={() => Alert.alert('hehe')}
-              // onPressOut={() => Keyboard.dismiss()}
-            />
-
-            <TouchableOpacity onPress={() => pressLogout()}>
-              <Text>Logout</Text>
-            </TouchableOpacity>
-          </View>
-          {/* </TouchableWithoutFeedback> */}
-        </KeyboardAvoidingView>
-        {/* </ScrollView> */}
-      </SafeAreaView>
+      <MyHeader
+        title={titleScreen.home}
+        iconLeft="magnify"
+        iconRight="dots-horizontal"
+        pressLeft={_pressSearch}
+        pressRight={_pressSearch2}
+      />
+      <KeyboardAwareScrollView style={{flex: 1}}>
+        <View style={{height: 300}}>
+          <Text>hehe</Text>
+        </View>
+        <View style={{height: 300, backgroundColor: 'yellow'}}>
+          <Text>hehe</Text>
+        </View>
+        <View style={{height: 300, backgroundColor: 'pink'}}>
+          <TextInput style={{width: 300, height: 50}} placeholder="enter" />
+        </View>
+        <View style={{height: 300, backgroundColor: 'orange'}}>
+          <Text>hehe</Text>
+        </View>
+      </KeyboardAwareScrollView>
     </>
   );
 };

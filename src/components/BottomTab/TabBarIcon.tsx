@@ -30,7 +30,6 @@ const TabBarIcon = (props: Props) => {
       {isPosts ? (
         <View
           style={{
-            backgroundColor: 'red',
             width: !focused
               ? Mixins.scaleSize(70)
               : Mixins.scaleSize(70) * sizeMax,
