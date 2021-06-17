@@ -21,7 +21,7 @@ import {hideTabBarAction} from '../../modules/app/actions';
 import {selectState} from '../../redux/reducers';
 import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {POSTS_SCREEN} from '../../constants/screenKeys';
+import {POSTS_SCREEN, SEARCH_SCREEN} from '../../constants/screenKeys';
 import {useRoute, useIsFocused} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {Header} from '@react-navigation/stack';
@@ -36,6 +36,7 @@ import {
   scaleFont,
   viewAnonymous,
   boxShadow,
+  flexRow,
 } from '../../styles/mixins';
 
 import {ceil} from 'react-native-reanimated';
@@ -98,11 +99,11 @@ const HomeScreen = (props: any) => {
   };
 
   const _pressSearch = () => {
-    alert('seatch');
+    navigationServices?.push(SEARCH_SCREEN);
   };
 
   const _pressSearch2 = () => {
-    alert('seatch');
+    // alert('seatch');
   };
 
   const storyView = () => {
@@ -110,7 +111,7 @@ const HomeScreen = (props: any) => {
       <View style={{backgroundColor: '#fff'}}>
         <View
           style={[
-            CommonStyles.flexRow,
+            flexRow(true, 20),
             {
               paddingVertical: 20,
             },
@@ -168,7 +169,7 @@ const HomeScreen = (props: any) => {
   const postsView = () => {
     return (
       <View style={{backgroundColor: '#fff', height: 300}}>
-        <View style={[CommonStyles.flexRow, {justifyContent: 'flex-start'}]}>
+        <View style={{...flexRow(false, 20), justifyContent: 'flex-start'}}>
           <TouchableOpacity onPress={() => setRecent('Recent')}>
             <Text
               style={{
@@ -223,7 +224,8 @@ const HomeScreen = (props: any) => {
         style={{flex: 1}}
         showsVerticalScrollIndicator={false}>
         <MyHeader
-          title={titleScreen.home}
+          title={titleScreen.home.main}
+          subTitle={titleScreen.home.sub}
           iconLeft="magnify"
           iconRight="dots-horizontal"
           pressLeft={_pressSearch}

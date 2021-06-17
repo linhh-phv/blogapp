@@ -1,5 +1,5 @@
 import {StyleSheet, Platform} from 'react-native';
-import {boxShadow, scaleSize} from './mixins';
+import {boxShadow, scaleFont, scaleSize} from './mixins';
 
 const CommonStyles = StyleSheet.create({
   shadow: boxShadow(
@@ -11,10 +11,11 @@ const CommonStyles = StyleSheet.create({
     Platform.OS == 'android' ? 10 : 5,
   ),
 
-  flexRow: {
-    paddingHorizontal: scaleSize(20),
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  textNor: {
+    fontSize: scaleFont(16),
   },
 });
 export default CommonStyles;
+export const DIMENSION = {
+  height_header: scaleSize(65),
+};

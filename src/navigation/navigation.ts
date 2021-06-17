@@ -19,7 +19,7 @@ class NavigationServices {
     return this.navigationInstanse;
   }
 
-  public navigate(screenName: string, params: any) {
+  public navigate(screenName: string, params?: any) {
     Keyboard.dismiss();
     this.navigation.dispatch(
       CommonActions.navigate({
@@ -39,7 +39,7 @@ class NavigationServices {
     this.navigation.dispatch(StackActions.popToTop());
   }
 
-  public push(screenName: string, params: any) {
+  public push(screenName: string, params?: any) {
     Keyboard.dismiss();
     this.navigation.dispatch(StackActions.push(screenName, params));
   }
@@ -49,7 +49,7 @@ class NavigationServices {
     this.navigation.dispatch(StackActions.pop(1));
   }
 
-  public jumpTo(screenName: string, params: any) {
+  public jumpTo(screenName: string, params?: any) {
     Keyboard.dismiss();
     this.navigation.dispatch(TabActions.jumpTo(screenName, params));
   }

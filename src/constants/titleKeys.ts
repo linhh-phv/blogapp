@@ -1,7 +1,13 @@
 const titleScreen = {
-  home: 'Home Blog',
+  home: {
+    main: 'Mine',
+    sub: 'Story of mine',
+  },
   profile: 'Profile',
   posts: 'Posts',
   settings: 'Setting',
+  search: {
+    placeholder: 'Tìm kiếm trên Mine',
+  },
 };
 export default titleScreen;

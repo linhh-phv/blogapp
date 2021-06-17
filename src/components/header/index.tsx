@@ -12,10 +12,12 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import images from '../../assets/images';
 import {Appbar} from 'react-native-paper';
-import {boxShadow, scaleFont} from '../../styles/mixins';
+import {boxShadow, scaleFont, scaleSize} from '../../styles/mixins';
+import {DIMENSION} from '../../styles/common';
 
 interface Props {
   title: string;
+  subTitle?: string;
   iconLeft?: string;
   iconRight?: string;
   pressLeft?: Function;
@@ -23,7 +25,8 @@ interface Props {
   back?: boolean;
 }
 const MyHeader = (props: Props) => {
-  const {title, iconLeft, iconRight, pressLeft, pressRight, back} = props;
+  const {title, iconLeft, iconRight, pressLeft, pressRight, back, subTitle} =
+    props;
 
   return (
     <>
@@ -38,6 +41,7 @@ const MyHeader = (props: Props) => {
           borderBottomWidth: 0.2,
           borderBottomColor: '#7F5DF0',
           ...styles.shadow,
+          height: DIMENSION.height_header,
         }}>
         {back && <Appbar.BackAction />}
         <Appbar.Content
@@ -47,6 +51,8 @@ const MyHeader = (props: Props) => {
             fontSize: scaleFont(30),
             fontWeight: 'bold',
           }}
+          subtitle={subTitle?.toUpperCase()}
+          subtitleStyle={{fontSize: scaleFont(12)}}
         />
         {iconLeft ? (
           <Appbar.Action
