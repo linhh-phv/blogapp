@@ -8,6 +8,7 @@ import {
   SETTING_SCREEN,
   PROFILE_SCREEN,
   POSTS_SCREEN,
+  SEARCH_SCREEN,
 } from '../constants/screenKeys';
 import HomeScreen from '../screen/home';
 import ProfileScreen from '../screen/profile';
@@ -19,6 +20,7 @@ import TabBarIcon from '../components/BottomTab/TabBarIcon';
 import {selectState} from '../redux/reducers';
 import titleScreen from '../constants/titleKeys';
 import {scaleSize, dimensions, boxShadow} from '../styles/mixins';
+import SearchScreen from '../screen/search';
 
 const HomeStackNavigator = createStackNavigator();
 const PostsStackNavigator = createStackNavigator();
@@ -30,6 +32,10 @@ const homeScreen = [
   {
     name: HOME_SCREEN,
     component: HomeScreen,
+  },
+  {
+    name: SEARCH_SCREEN,
+    component: SearchScreen,
   },
 ];
 
@@ -148,11 +154,10 @@ const AppsScreens = () => {
                   ...styles.shadow,
                 },
                 dimensions(
-                  null,
+                  undefined,
                   20,
                   Platform.OS == 'android' ? scaleSize(25) : bottom,
                   20,
-                  '',
                 ),
               ],
             }
@@ -164,7 +169,7 @@ const AppsScreens = () => {
           name={item.name}
           component={item.component}
           options={{
-            title: item.title,
+            // title: item.title,
             tabBarIcon: ({focused}) =>
               hideTabBar ? (
                 <TabBarIcon
