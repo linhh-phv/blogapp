@@ -16,9 +16,9 @@ import SettingScreen from '../screen/setting';
 import {StyleSheet, Platform} from 'react-native';
 import TabsUI from '../components/BottomTab/TabsUI';
 import TabBarIcon from '../components/BottomTab/TabBarIcon';
-import {Mixins} from '../styles';
 import {selectState} from '../redux/reducers';
 import titleScreen from '../constants/titleKeys';
+import {scaleSize, dimensions, boxShadow} from '../styles/mixins';
 
 const HomeStackNavigator = createStackNavigator();
 const PostsStackNavigator = createStackNavigator();
@@ -144,13 +144,13 @@ const AppsScreens = () => {
                 {
                   position: 'absolute',
                   borderRadius: 15,
-                  height: Mixins.scaleSize(70),
+                  height: scaleSize(70),
                   ...styles.shadow,
                 },
-                Mixins.dimensions(
+                dimensions(
                   null,
                   20,
-                  Platform.OS == 'android' ? Mixins.scaleSize(25) : bottom,
+                  Platform.OS == 'android' ? scaleSize(25) : bottom,
                   20,
                   '',
                 ),
@@ -172,7 +172,7 @@ const AppsScreens = () => {
                   colorActive={item.color}
                   colorNonActive={'#000'}
                   sizeMax={1.2}
-                  sizeMin={Mixins.scaleSize(25)}
+                  sizeMin={scaleSize(25)}
                   focused={focused}
                   isPosts={item.isPosts}
                   isProfile={item.isProfile}
@@ -187,7 +187,7 @@ const AppsScreens = () => {
 };
 
 const styles = StyleSheet.create({
-  shadow: Mixins.boxShadow(
+  shadow: boxShadow(
     '#7F5DF0',
     0,
     10,

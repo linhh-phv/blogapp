@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Image, StyleSheet, Platform, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import images from '../../assets/images';
-import {Mixins} from '../../styles';
+import {scaleSize, boxShadow} from '../../styles/mixins';
 
 interface Props {
   icon: string;
@@ -30,17 +30,10 @@ const TabBarIcon = (props: Props) => {
       {isPosts ? (
         <View
           style={{
-            width: !focused
-              ? Mixins.scaleSize(70)
-              : Mixins.scaleSize(70) * sizeMax,
-            height: !focused
-              ? Mixins.scaleSize(70)
-              : Mixins.scaleSize(70) * sizeMax,
+            width: !focused ? scaleSize(70) : scaleSize(70) * sizeMax,
+            height: !focused ? scaleSize(70) : scaleSize(70) * sizeMax,
             borderRadius: 50,
-            top:
-              Platform.OS == 'android'
-                ? Mixins.scaleSize(-35)
-                : Mixins.scaleSize(-25),
+            top: Platform.OS == 'android' ? scaleSize(-35) : scaleSize(-25),
             ...styles.shadow,
           }}>
           <Image
@@ -55,18 +48,14 @@ const TabBarIcon = (props: Props) => {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              top: Platform.OS == 'android' ? 0 : Mixins.scaleSize(15),
+              top: Platform.OS == 'android' ? 0 : scaleSize(15),
             },
           ]}>
           {isProfile ? (
             <View
               style={{
-                width: !focused
-                  ? Mixins.scaleSize(35)
-                  : Mixins.scaleSize(35) * sizeMax,
-                height: !focused
-                  ? Mixins.scaleSize(35)
-                  : Mixins.scaleSize(35) * sizeMax,
+                width: !focused ? scaleSize(35) : scaleSize(35) * sizeMax,
+                height: !focused ? scaleSize(35) : scaleSize(35) * sizeMax,
                 borderRadius: 50,
               }}>
               <Image
@@ -87,7 +76,7 @@ const TabBarIcon = (props: Props) => {
   );
 };
 const styles = StyleSheet.create({
-  shadow: Mixins.boxShadow(
+  shadow: boxShadow(
     '#7F5DF0',
     0,
     10,

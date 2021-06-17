@@ -46,3 +46,12 @@ export function boxShadow(
     elevation: elevation,
   };
 }
+
+export function viewAnonymous(color, opacity = 0.25) {
+  return {
+    backgroundColor: color,
+    opacity: opacity,
+    width: '100%',
+    height: '100%',
+  };
+}

@@ -11,8 +11,8 @@ import {
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import images from '../../assets/images';
-import {Mixins} from '../../styles';
 import {Appbar} from 'react-native-paper';
+import {boxShadow, scaleFont} from '../../styles/mixins';
 
 interface Props {
   title: string;
@@ -35,7 +35,7 @@ const MyHeader = (props: Props) => {
       <Appbar.Header
         style={{
           backgroundColor: '#fff',
-          borderBottomWidth: 1,
+          borderBottomWidth: 0.2,
           borderBottomColor: '#7F5DF0',
           ...styles.shadow,
         }}>
@@ -44,7 +44,7 @@ const MyHeader = (props: Props) => {
           title={title}
           titleStyle={{
             color: '#7F5DF0',
-            fontSize: Mixins.scaleFont(30),
+            fontSize: scaleFont(30),
             fontWeight: 'bold',
           }}
         />
@@ -72,13 +72,6 @@ const MyHeader = (props: Props) => {
   );
 };
 const styles = StyleSheet.create({
-  shadow: Mixins.boxShadow(
-    '#000',
-    0,
-    0,
-    0,
-    0,
-    Platform.OS == 'android' ? 0 : 0,
-  ),
+  shadow: boxShadow('#000', 0, 0, 0, 0, Platform.OS == 'android' ? 0 : 0),
 });
 export default MyHeader;

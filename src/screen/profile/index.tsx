@@ -41,6 +41,65 @@ const ProfileScreen = () => {
     );
   };
 
+  const data = [
+    {
+      id: 1,
+      name: 'linh',
+    },
+    {
+      id: 2,
+      name: 'linh',
+    },
+    {
+      id: 3,
+      name: 'linh',
+    },
+    {
+      id: 4,
+      name: 'linh',
+    },
+    {
+      id: 5,
+      name: 'linh',
+    },
+    {
+      id: 6,
+      name: 'linh',
+    },
+    {
+      id: 7,
+      name: 'linh',
+    },
+    {
+      id: 8,
+      name: 'linh',
+    },
+    {
+      id: 9,
+      name: 'linh',
+    },
+    {
+      id: 10,
+      name: 'linh',
+    },
+    {
+      id: 11,
+      name: 'linh',
+    },
+    {
+      id: 12,
+      name: 'linh',
+    },
+    {
+      id: 13,
+      name: 'linh',
+    },
+    {
+      id: 14,
+      name: 'linh',
+    },
+  ];
+
   return (
     <>
       <MyHeader
@@ -52,6 +111,7 @@ const ProfileScreen = () => {
       />
       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
         <Text>profile ne ne </Text>
+        
       </View>
     </>
   );
