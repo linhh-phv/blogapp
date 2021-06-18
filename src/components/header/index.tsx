@@ -14,6 +14,7 @@ import images from '../../assets/images';
 import {Appbar} from 'react-native-paper';
 import {boxShadow, scaleFont, scaleSize} from '../../styles/mixins';
 import {DIMENSION} from '../../styles/common';
+import {Colors} from '../../styles';
 
 interface Props {
   title: string;
@@ -37,7 +38,7 @@ const MyHeader = (props: Props) => {
       />
       <Appbar.Header
         style={{
-          backgroundColor: '#fff',
+          backgroundColor: Colors.WHITE,
           borderBottomWidth: 0.2,
           borderBottomColor: '#7F5DF0',
           ...styles.shadow,
@@ -58,7 +59,7 @@ const MyHeader = (props: Props) => {
           <Appbar.Action
             icon={iconLeft}
             onPress={() => pressLeft && pressLeft()}
-            style={{backgroundColor: '#f1f1f1'}}
+            style={{backgroundColor: Colors.TAG}}
           />
         ) : (
           <View />
@@ -68,7 +69,7 @@ const MyHeader = (props: Props) => {
           <Appbar.Action
             icon={iconRight}
             onPress={() => pressRight && pressRight()}
-            style={{backgroundColor: '#f1f1f1'}}
+            style={{backgroundColor: Colors.TAG}}
           />
         ) : (
           <View />

@@ -18,4 +18,6 @@ const CommonStyles = StyleSheet.create({
 export default CommonStyles;
 export const DIMENSION = {
   height_header: scaleSize(65),
+  borderRadiusMin: 15,
+  borderRadiusMax: 50,
 };

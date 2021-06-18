@@ -9,9 +9,10 @@ import MyHeader from '../../components/header';
 import titleScreen from '../../constants/titleKeys';
 import {Chip, Searchbar, Appbar} from 'react-native-paper';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import CommonStyles from '../../styles/common';
+import CommonStyles, {DIMENSION} from '../../styles/common';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {flexRow} from '../../styles/mixins';
+import {Colors} from '../../styles';
 
 const SearchScreen = () => {
   const {signin, app} = selectState(state => state);
@@ -54,30 +55,6 @@ const SearchScreen = () => {
       id: 8,
       name: 'linh',
     },
-    {
-      id: 9,
-      name: 'linh',
-    },
-    {
-      id: 10,
-      name: 'linh',
-    },
-    {
-      id: 11,
-      name: 'linh',
-    },
-    {
-      id: 12,
-      name: 'linh',
-    },
-    {
-      id: 13,
-      name: 'linh',
-    },
-    {
-      id: 14,
-      name: 'linh',
-    },
   ];
 
   const pressBack = () => {
@@ -95,12 +72,15 @@ const SearchScreen = () => {
       <KeyboardAwareScrollView
         style={{flex: 1}}
         showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+        <SafeAreaView style={{flex: 1, backgroundColor: Colors.WHITE}}>
           <View style={{flex: 1, alignItems: 'center'}}>
             <View style={{...flexRow(true, 20)}}>
               <Appbar.BackAction
                 onPress={() => pressBack()}
-                style={{alignItems: 'flex-start'}}
+                style={{
+                  alignItems: 'flex-start',
+                  marginHorizontal: 0,
+                }}
               />
               <Searchbar
                 autoFocus
@@ -108,9 +88,8 @@ const SearchScreen = () => {
                 onChangeText={onChangeSearch}
                 value={searchQuery}
                 style={{
-                  borderRadius: 50,
-                  // width: '100%',
-                  backgroundColor: '#f1f1f1',
+                  borderRadius: DIMENSION.borderRadiusMax,
+                  backgroundColor: Colors.TAG,
                   elevation: 0,
                   flex: 1,
                 }}
@@ -131,7 +110,7 @@ const SearchScreen = () => {
                     onPress={() => console.log('Pressed')}
                     textStyle={[CommonStyles.textNor]}
                     style={{margin: 3}}>
-                    {item.name}
+                    #{item.name}
                   </Chip>
                 );
               })}

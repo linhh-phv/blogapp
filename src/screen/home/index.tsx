@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   View,
   Text,
@@ -6,14 +6,12 @@ import {
   TextInput,
   Keyboard,
   Alert,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Platform,
-  TouchableNativeFeedback,
   StatusBar,
   Image,
   ImageBackground,
   StyleSheet,
+  Animated,
 } from 'react-native';
 import {logoutAction} from '../../modules/signin/actions';
 import {hideTabBarAction} from '../../modules/app/actions';
@@ -22,12 +20,11 @@ import {selectState} from '../../redux/reducers';
 import {useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {POSTS_SCREEN, SEARCH_SCREEN} from '../../constants/screenKeys';
-import {useRoute, useIsFocused} from '@react-navigation/native';
+import {useRoute, useIsFocused, useScrollToTop} from '@react-navigation/native';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {Header} from '@react-navigation/stack';
 import MyHeader from '../../components/header';
 import titleScreen from '../../constants/titleKeys';
-import CommonStyles from '../../styles/common';
+import CommonStyles, {DIMENSION} from '../../styles/common';
 import {Badge} from 'react-native-paper';
 import images from '../../assets/images';
 import {ScrollView} from 'react-native-gesture-handler';
@@ -37,9 +34,15 @@ import {
   viewAnonymous,
   boxShadow,
   flexRow,
+  dual_dimensions,
 } from '../../styles/mixins';
 
-import {ceil} from 'react-native-reanimated';
+import {Colors} from '../../styles';
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 const data = [
   {image: images.ic_tabar_profile, name: 'linh pham pham pham'},
@@ -56,6 +59,8 @@ const HomeScreen = (props: any) => {
   const {navigationServices, hideTabBar} = app;
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
+  const refScrollTop = useRef(null);
+  useScrollToTop(refScrollTop);
 
   // local state
   const [hideHeader, setHideHeader] = useState(true);
@@ -108,14 +113,8 @@ const HomeScreen = (props: any) => {
 
   const storyView = () => {
     return (
-      <View style={{backgroundColor: '#fff'}}>
-        <View
-          style={[
-            flexRow(true, 20),
-            {
-              paddingVertical: 20,
-            },
-          ]}>
+      <View style={{backgroundColor: Colors.WHITE}}>
+        <View style={{...flexRow(true, 20, 20)}}>
           <View>
             <Text style={{fontSize: scaleFont(18), fontWeight: '600'}}>
               Top 20 today
@@ -141,14 +140,14 @@ const HomeScreen = (props: any) => {
                   }}>
                   <ImageBackground
                     source={item.image}
-                    borderRadius={15}
+                    borderRadius={DIMENSION.borderRadiusMin}
                     style={{
                       width: scaleFont(100),
                       height: scaleFont(120),
                     }}>
                     <View
                       style={{
-                        borderRadius: 15,
+                        borderRadius: DIMENSION.borderRadiusMin,
                         ...styles.storyView_anonymous,
                       }}
                     />
@@ -168,7 +167,7 @@ const HomeScreen = (props: any) => {
   };
   const postsView = () => {
     return (
-      <View style={{backgroundColor: '#fff', height: 300}}>
+      <View style={{backgroundColor: Colors.WHITE, height: 1000}}>
         <View style={{...flexRow(false, 20), justifyContent: 'flex-start'}}>
           <TouchableOpacity onPress={() => setRecent('Recent')}>
             <Text
@@ -218,9 +217,11 @@ const HomeScreen = (props: any) => {
       </View>
     );
   };
+
   return (
     <>
       <KeyboardAwareScrollView
+        ref={refScrollTop}
         style={{flex: 1}}
         showsVerticalScrollIndicator={false}>
         <MyHeader
@@ -250,8 +251,8 @@ const styles = StyleSheet.create({
   ),
 
   storyView_viewAll: {
-    backgroundColor: '#f1f1f1',
-    borderRadius: 15,
+    backgroundColor: Colors.TAG,
+    borderRadius: DIMENSION.borderRadiusMin,
     paddingHorizontal: scaleSize(10),
     justifyContent: 'center',
   },
@@ -261,13 +262,13 @@ const styles = StyleSheet.create({
   storyView_storyImage: {
     flexDirection: 'row',
     // backgroundColor: '#f1f1',
-    paddingVertical: 10,
+    paddingVertical: scaleSize(10),
   },
   storyView_storyImage_text: {
-    color: '#fff',
-    fontSize: scaleFont(16),
+    color: Colors.WHITE,
     textAlign: 'center',
     marginTop: scaleSize(-30),
-    paddingHorizontal: scaleSize(5),
+    ...CommonStyles.textNor,
+    ...dual_dimensions(5, undefined, 'padding'),
   },
 });

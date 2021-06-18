@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Image, StyleSheet, Platform, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import images from '../../assets/images';
+import {DIMENSION} from '../../styles/common';
 import {scaleSize, boxShadow} from '../../styles/mixins';
 
 interface Props {
@@ -32,13 +33,17 @@ const TabBarIcon = (props: Props) => {
           style={{
             width: !focused ? scaleSize(70) : scaleSize(70) * sizeMax,
             height: !focused ? scaleSize(70) : scaleSize(70) * sizeMax,
-            borderRadius: 50,
+            borderRadius: DIMENSION.borderRadiusMax,
             top: Platform.OS == 'android' ? scaleSize(-35) : scaleSize(-25),
             ...styles.shadow,
           }}>
           <Image
             source={images.ic_tabar_posts}
-            style={{width: '100%', height: '100%', borderRadius: 50}}
+            style={{
+              width: '100%',
+              height: '100%',
+              borderRadius: DIMENSION.borderRadiusMax,
+            }}
           />
         </View>
       ) : (
@@ -56,11 +61,15 @@ const TabBarIcon = (props: Props) => {
               style={{
                 width: !focused ? scaleSize(35) : scaleSize(35) * sizeMax,
                 height: !focused ? scaleSize(35) : scaleSize(35) * sizeMax,
-                borderRadius: 50,
+                borderRadius: DIMENSION.borderRadiusMax,
               }}>
               <Image
                 source={images.ic_tabar_profile}
-                style={{width: '100%', height: '100%', borderRadius: 50}}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  borderRadius: DIMENSION.borderRadiusMax,
+                }}
               />
             </View>
           ) : (

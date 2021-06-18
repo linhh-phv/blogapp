@@ -4,6 +4,8 @@
 // Import React and Component
 import React from 'react';
 import {StyleSheet, View, Modal, ActivityIndicator} from 'react-native';
+import {Colors} from '../../styles';
+import {DIMENSION} from '../../styles/common';
 
 interface Props {
   loading: boolean;
@@ -44,10 +46,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#00000040',
   },
   activityIndicatorWrapper: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.WHITE,
     height: 100,
     width: 100,
-    borderRadius: 10,
+    borderRadius: DIMENSION.borderRadiusMin,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around',

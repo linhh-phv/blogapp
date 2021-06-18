@@ -21,6 +21,7 @@ import {selectState} from '../redux/reducers';
 import titleScreen from '../constants/titleKeys';
 import {scaleSize, dimensions, boxShadow} from '../styles/mixins';
 import SearchScreen from '../screen/search';
+import { DIMENSION } from '../styles/common';
 
 const HomeStackNavigator = createStackNavigator();
 const PostsStackNavigator = createStackNavigator();
@@ -149,7 +150,7 @@ const AppsScreens = () => {
               style: [
                 {
                   position: 'absolute',
-                  borderRadius: 15,
+                  borderRadius: DIMENSION.borderRadiusMin,
                   height: scaleSize(70),
                   ...styles.shadow,
                 },
