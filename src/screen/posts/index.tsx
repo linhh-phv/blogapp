@@ -7,6 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {joinChatAction} from '../../modules/videochat/actions';
 import {socketConnect, IP_HOST, PORT, URL} from '../../constants/api';
 import TextInputUntil from '../../util/input';
+import CollapsibleHeader from '../../components/CollapseTabView';
 // import CollapseTabView from '../../components/CollapseTabView';
 
 const PostsScreen = (props: any) => {
@@ -49,7 +50,8 @@ const PostsScreen = (props: any) => {
   }, []);
 
   return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+    <>
+      {/* <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       <Text>Post screen </Text>
       <TouchableOpacity onPress={() => pressBack()}>
         <Text>back home</Text>
@@ -57,7 +59,9 @@ const PostsScreen = (props: any) => {
       <TouchableOpacity onPress={() => pressLogout()}>
         <Text>Logout</Text>
       </TouchableOpacity>
-    </View>
+    </View> */}
+      <CollapsibleHeader />
+    </>
   );
 };
 export default PostsScreen;

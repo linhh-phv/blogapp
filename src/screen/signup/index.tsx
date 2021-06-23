@@ -17,10 +17,10 @@ import {
 
 import AsyncStorage from '@react-native-community/async-storage';
 
-import Loader from '../../util/loading';
-import TextInputUntil from '../../util/input';
+import Loader from '../../components/loading';
 import {selectState} from '../../redux/reducers';
 import {LOGIN_SCREEN} from '../../constants/screenKeys';
+import TextInputUntil from '../../components/input';
 
 const SignUpScreen = () => {
   const [username, setUsername] = useState('');

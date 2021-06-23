@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import {
   View,
   Text,
@@ -12,6 +12,7 @@ import {
   ImageBackground,
   StyleSheet,
   Animated,
+  RefreshControl,
 } from 'react-native';
 import {logoutAction} from '../../modules/signin/actions';
 import {hideTabBarAction} from '../../modules/app/actions';
@@ -25,7 +26,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MyHeader from '../../components/header';
 import titleScreen from '../../constants/titleKeys';
 import CommonStyles, {DIMENSION} from '../../styles/common';
-import {Badge} from 'react-native-paper';
+import {Badge, Avatar} from 'react-native-paper';
 import images from '../../assets/images';
 import {ScrollView} from 'react-native-gesture-handler';
 import {
@@ -43,6 +44,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
+import { wait } from '../../util/helper';
 
 const data = [
   {image: images.ic_tabar_profile, name: 'linh pham pham pham'},
@@ -66,16 +68,7 @@ const HomeScreen = (props: any) => {
   const [hideHeader, setHideHeader] = useState(true);
   const [isRecent, setRecent] = useState('Recent');
   const [value, setValue] = useState('');
-
-  const logoutSuccess = () => {
-    console.log('loged out');
-    // setLoading(false);
-  };
-
-  const logoutFail = (error: any) => {
-    // Alert.alert(`${error?.message}`);
-    // setLoading(false);
-  };
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     if (isFocused) {
@@ -87,21 +80,10 @@ const HomeScreen = (props: any) => {
     }
   }, [isFocused]);
 
-  const pressLogout = () => {
-    if (id) {
-      dispatch(
-        logoutAction({
-          id: id,
-          onFail: error => logoutFail(error),
-          onSuccess: result => logoutSuccess(),
-        }),
-      );
-    }
-  };
-
-  const pressVideoChat = () => {
-    navigationServices?.navigate(POSTS_SCREEN, {he: 'heeh'});
-  };
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
   const _pressSearch = () => {
     navigationServices?.push(SEARCH_SCREEN);
@@ -165,9 +147,10 @@ const HomeScreen = (props: any) => {
       </View>
     );
   };
-  const postsView = () => {
+
+  const selectPostsView = () => {
     return (
-      <View style={{backgroundColor: Colors.WHITE, height: 1000}}>
+      <View style={{backgroundColor: Colors.WHITE}}>
         <View style={{...flexRow(false, 20), justifyContent: 'flex-start'}}>
           <TouchableOpacity onPress={() => setRecent('Recent')}>
             <Text
@@ -218,21 +201,81 @@ const HomeScreen = (props: any) => {
     );
   };
 
+  const postsView = () => {
+    return (
+      <View
+        style={{
+          backgroundColor: Colors.WHITE,
+          height: 1000,
+          alignItems: 'center',
+        }}>
+        <View style={{...flexRow(true, 20, 20), width: '100%'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              flex: 7,
+            }}>
+            <Avatar.Image
+              size={scaleSize(30)}
+              source={images.ic_tabar_profile}
+            />
+            <View style={{paddingLeft: 10, justifyContent: 'center'}}>
+              <Text style={{...CommonStyles.textNor}} numberOfLines={1}>
+                Linh Pham
+              </Text>
+            </View>
+          </View>
+
+          <View
+            style={{
+              justifyContent: 'center',
+              flex: 3,
+              alignItems: 'flex-end',
+            }}>
+            <Text style={{...CommonStyles.textNor}}>22:17</Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            width: DIMENSION.WINDOW_WIDTH - 20,
+            height: DIMENSION.WINDOW_WIDTH - 20,
+            borderRadius: DIMENSION.borderRadiusMax,
+          }}>
+          <Image
+            source={images.ic_tabar_profile}
+            style={{
+              width: '100%',
+              height: '100%',
+              backgroundColor: Colors.TAG,
+              borderRadius: DIMENSION.borderRadiusMax,
+            }}
+          />
+        </View>
+      </View>
+    );
+  };
+
   return (
     <>
+      <MyHeader
+        title={titleScreen.home.main}
+        subTitle={titleScreen.home.sub}
+        iconLeft="magnify"
+        iconRight="bell"
+        pressLeft={_pressSearch}
+        pressRight={_pressSearch2}
+      />
+
       <KeyboardAwareScrollView
         ref={refScrollTop}
         style={{flex: 1}}
-        showsVerticalScrollIndicator={false}>
-        <MyHeader
-          title={titleScreen.home.main}
-          subTitle={titleScreen.home.sub}
-          iconLeft="magnify"
-          iconRight="dots-horizontal"
-          pressLeft={_pressSearch}
-          pressRight={_pressSearch2}
-        />
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
         {storyView()}
+        {selectPostsView()}
         {postsView()}
       </KeyboardAwareScrollView>
     </>

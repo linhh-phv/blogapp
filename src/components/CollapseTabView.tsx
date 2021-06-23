@@ -1,58 +1,80 @@
-import React from 'react';
-import {View, StyleSheet, ListRenderItem} from 'react-native';
-import {Tabs} from 'react-native-collapsible-tab-view';
+import React, {useRef} from 'react';
+import {View, Animated, Image, ScrollView, Text} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {scaleSize} from '../styles/mixins';
 
-const HEADER_HEIGHT = 250;
+const H_MAX_HEIGHT = 150;
+const H_MIN_HEIGHT = 52;
+const H_SCROLL_DISTANCE = H_MAX_HEIGHT - H_MIN_HEIGHT;
 
-const Header = () => {
-  return <View style={styles.header} />;
-};
-
-const CollapseTabView = () => {
-  const renderItem: ListRenderItem<number> = React.useCallback(({index}) => {
-    return (
-      <View style={[styles.box, index % 2 === 0 ? styles.boxB : styles.boxA]} />
-    );
-  }, []);
+const CollapsibleHeader = () => {
+  const scrollOffsetY = useRef(new Animated.Value(0)).current;
+  const headerScrollHeight = scrollOffsetY.interpolate({
+    inputRange: [0, H_SCROLL_DISTANCE],
+    outputRange: [H_MAX_HEIGHT, H_MIN_HEIGHT],
+    extrapolate: 'clamp',
+  });
 
   return (
-    <Tabs.Container
-      HeaderComponent={Header}
-      headerHeight={HEADER_HEIGHT} // optional
-    >
-      <Tabs.Tab name="A">
-        <Tabs.FlatList
-          data={[0, 1, 2, 3, 4]}
-          renderItem={renderItem}
-          keyExtractor={v => v + ''}
-        />
-      </Tabs.Tab>
-      <Tabs.Tab name="B">
-        <Tabs.ScrollView>
-          <View style={[styles.box, styles.boxA]} />
-          <View style={[styles.box, styles.boxB]} />
-        </Tabs.ScrollView>
-      </Tabs.Tab>
-    </Tabs.Container>
+    <SafeAreaView style={{flex: 1}}>
+      <View style={{flex: 1}}>
+        <ScrollView
+          onScroll={Animated.event([
+            {nativeEvent: {contentOffset: {y: scrollOffsetY}}},
+          ])}
+          scrollEventThrottle={16}>
+          <View style={{paddingTop: H_MAX_HEIGHT}}>
+            {/** Page contant goes here **/}
+
+            <View style={{padding: 20}}>
+              <Text>React Native Collapsible Header</Text>
+            </View>
+
+            <View style={{padding: 20, height: 300, backgroundColor: 'red'}}>
+              <Text>View 1</Text>
+            </View>
+
+            <View style={{padding: 20, height: 300, backgroundColor: 'yellow'}}>
+              <Text>View 1</Text>
+            </View>
+
+            <View style={{padding: 20, height: 300, backgroundColor: 'green'}}>
+              <Text>View 1</Text>
+            </View>
+          </View>
+        </ScrollView>
+
+        {/**
+         * We put the header at the bottom of
+         * our JSX or it will not take priority
+         * on Android (for some reason, simply
+         * setting zIndex does not work)
+         **/}
+        <Animated.View
+          style={{
+            position: 'absolute',
+            // left: 0,
+            // right: 0,
+            // top: 0,
+            height: headerScrollHeight,
+            width: '100%',
+            overflow: 'hidden',
+            zIndex: 999,
+            // STYLE
+            borderBottomColor: '#EFEFF4',
+            borderBottomWidth: 2,
+            padding: 10,
+            // backgroundColor: 'blue',
+          }}>
+          <Image
+            source={{uri: 'https://via.placeholder.com/300'}}
+            style={{flex: 1}}
+            resizeMode={'contain'}
+          />
+        </Animated.View>
+      </View>
+    </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({
-  box: {
-    height: 250,
-    width: '100%',
-  },
-  boxA: {
-    backgroundColor: 'white',
-  },
-  boxB: {
-    backgroundColor: '#D8D8D8',
-  },
-  header: {
-    height: HEADER_HEIGHT,
-    width: '100%',
-    backgroundColor: '#2196f3',
-  },
-});
-
-export default CollapseTabView;
+export default CollapsibleHeader;

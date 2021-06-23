@@ -1,4 +1,4 @@
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet, Platform, Dimensions} from 'react-native';
 import {boxShadow, scaleFont, scaleSize} from './mixins';
 
 const CommonStyles = StyleSheet.create({
@@ -20,4 +20,6 @@ export const DIMENSION = {
   height_header: scaleSize(65),
   borderRadiusMin: 15,
   borderRadiusMax: 50,
+  WINDOW_WIDTH: Dimensions.get('window').width,
+  WINDOW_HEIGHT: Dimensions.get('window').height,
 };

@@ -17,17 +17,26 @@ import {DIMENSION} from '../../styles/common';
 import {Colors} from '../../styles';
 
 interface Props {
-  title: string;
+  title?: string;
   subTitle?: string;
   iconLeft?: string;
   iconRight?: string;
   pressLeft?: Function;
   pressRight?: Function;
+  pressBack?: Function;
   back?: boolean;
 }
 const MyHeader = (props: Props) => {
-  const {title, iconLeft, iconRight, pressLeft, pressRight, back, subTitle} =
-    props;
+  const {
+    title,
+    iconLeft,
+    iconRight,
+    pressLeft,
+    pressRight,
+    back,
+    subTitle,
+    pressBack,
+  } = props;
 
   return (
     <>
@@ -44,7 +53,7 @@ const MyHeader = (props: Props) => {
           ...styles.shadow,
           height: DIMENSION.height_header,
         }}>
-        {back && <Appbar.BackAction />}
+        {back && <Appbar.BackAction onPress={() => pressBack && pressBack()} />}
         <Appbar.Content
           title={title}
           titleStyle={{

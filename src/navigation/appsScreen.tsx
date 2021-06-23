@@ -9,6 +9,7 @@ import {
   PROFILE_SCREEN,
   POSTS_SCREEN,
   SEARCH_SCREEN,
+  SEARCH_DETAILS_SCREEN,
 } from '../constants/screenKeys';
 import HomeScreen from '../screen/home';
 import ProfileScreen from '../screen/profile';
@@ -21,7 +22,8 @@ import {selectState} from '../redux/reducers';
 import titleScreen from '../constants/titleKeys';
 import {scaleSize, dimensions, boxShadow} from '../styles/mixins';
 import SearchScreen from '../screen/search';
-import { DIMENSION } from '../styles/common';
+import {DIMENSION} from '../styles/common';
+import SearchDetailsScreen from '../screen/search/SearchDetails';
 
 const HomeStackNavigator = createStackNavigator();
 const PostsStackNavigator = createStackNavigator();
@@ -37,6 +39,10 @@ const homeScreen = [
   {
     name: SEARCH_SCREEN,
     component: SearchScreen,
+  },
+  {
+    name: SEARCH_DETAILS_SCREEN,
+    component: SearchDetailsScreen,
   },
 ];
 

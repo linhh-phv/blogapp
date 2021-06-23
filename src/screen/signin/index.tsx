@@ -17,13 +17,13 @@ import {
 } from 'react-native';
 
 import AsyncStorage from '@react-native-community/async-storage';
-import Loader from '../../util/loading';
-import TextInputUntil from '../../util/input';
+import Loader from '../../components/loading';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {SIGNUP_SCREEN} from '../../constants/screenKeys';
 import {selectState} from '../../redux/reducers';
 import {useDispatch} from 'react-redux';
 import {loginAction} from '../../modules/signin/actions';
+import TextInputUntil from '../../components/input';
 
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
@@ -54,7 +54,7 @@ const LoginScreen = () => {
   };
 
   const pressSignUp = () => {
-    navigationServices && navigationServices.pushToScreen(SIGNUP_SCREEN, null);
+    navigationServices && navigationServices.navigate(SIGNUP_SCREEN, null);
   };
   return (
     <View style={styles.body}>
