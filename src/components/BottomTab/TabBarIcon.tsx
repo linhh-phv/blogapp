@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {View, Image, StyleSheet, Platform, Dimensions} from 'react-native';
+import {View, Image, StyleSheet, Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import images from '../../assets/images';
 import {DIMENSION} from '../../styles/common';
 import {scaleSize, boxShadow} from '../../styles/mixins';
+import {checkPlatform} from '../../util/helper';
 
 interface Props {
   icon: string;
@@ -34,7 +35,7 @@ const TabBarIcon = (props: Props) => {
             width: !focused ? scaleSize(70) : scaleSize(70) * sizeMax,
             height: !focused ? scaleSize(70) : scaleSize(70) * sizeMax,
             borderRadius: DIMENSION.borderRadiusMax,
-            top: Platform.OS == 'android' ? scaleSize(-35) : scaleSize(-25),
+            top: checkPlatform<number>(scaleSize(-35), scaleSize(-25)),
             ...styles.shadow,
           }}>
           <Image
@@ -53,7 +54,7 @@ const TabBarIcon = (props: Props) => {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              top: Platform.OS == 'android' ? 0 : scaleSize(15),
+              top: checkPlatform<number>(0, scaleSize(15)),
             },
           ]}>
           {isProfile ? (
@@ -85,13 +86,6 @@ const TabBarIcon = (props: Props) => {
   );
 };
 const styles = StyleSheet.create({
-  shadow: boxShadow(
-    '#7F5DF0',
-    0,
-    10,
-    3.5,
-    0.25,
-    Platform.OS == 'android' ? 10 : 5,
-  ),
+  shadow: boxShadow('#7F5DF0', 0, 10, 3.5, 0.25, checkPlatform<number>(10, 5)),
 });
 export default TabBarIcon;

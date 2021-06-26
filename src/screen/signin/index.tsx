@@ -24,6 +24,7 @@ import {selectState} from '../../redux/reducers';
 import {useDispatch} from 'react-redux';
 import {loginAction} from '../../modules/signin/actions';
 import TextInputUntil from '../../components/input';
+import {checkPlatform} from '../../util/helper';
 
 const LoginScreen = () => {
   const [username, setUsername] = useState('');
@@ -83,6 +84,12 @@ const LoginScreen = () => {
       <TouchableOpacity onPress={() => pressSignUp()}>
         <Text>Sign up</Text>
       </TouchableOpacity>
+      <Text>
+        {checkPlatform<string>(
+          'Test codepush android && generic fn',
+          'Test codepush ios linhh.phv %% generic fn',
+        )}
+      </Text>
     </View>
   );
 };

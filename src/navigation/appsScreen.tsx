@@ -15,7 +15,7 @@ import HomeScreen from '../screen/home';
 import ProfileScreen from '../screen/profile';
 import PostsScreen from '../screen/posts';
 import SettingScreen from '../screen/setting';
-import {StyleSheet, Platform} from 'react-native';
+import {StyleSheet} from 'react-native';
 import TabsUI from '../components/BottomTab/TabsUI';
 import TabBarIcon from '../components/BottomTab/TabBarIcon';
 import {selectState} from '../redux/reducers';
@@ -24,6 +24,7 @@ import {scaleSize, dimensions, boxShadow} from '../styles/mixins';
 import SearchScreen from '../screen/search';
 import {DIMENSION} from '../styles/common';
 import SearchDetailsScreen from '../screen/search/SearchDetails';
+import {checkPlatform} from '../util/helper';
 
 const HomeStackNavigator = createStackNavigator();
 const PostsStackNavigator = createStackNavigator();
@@ -163,7 +164,7 @@ const AppsScreens = () => {
                 dimensions(
                   undefined,
                   20,
-                  Platform.OS == 'android' ? scaleSize(25) : bottom,
+                  checkPlatform<number>(scaleSize(25), bottom),
                   20,
                 ),
               ],
@@ -199,13 +200,6 @@ const AppsScreens = () => {
 };
 
 const styles = StyleSheet.create({
-  shadow: boxShadow(
-    '#7F5DF0',
-    0,
-    10,
-    3.5,
-    0.25,
-    Platform.OS == 'android' ? 10 : 5,
-  ),
+  shadow: boxShadow('#7F5DF0', 0, 10, 3.5, 0.25, checkPlatform<number>(10, 5)),
 });
 export default AppsScreens;
