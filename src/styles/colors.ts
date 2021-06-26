@@ -3,6 +3,7 @@ export const SECONDARY = '#767676';
 export const WHITE = '#FFFFFF';
 export const BLACK = '#000000';
 export const TAG = '#f1f1f1';
+export const LIKE = 'tomato';
 
 // ACTIONS
 export const SUCCESS = '#3adb76';

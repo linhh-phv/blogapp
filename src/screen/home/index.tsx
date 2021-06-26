@@ -13,6 +13,8 @@ import {
   StyleSheet,
   Animated,
   RefreshControl,
+  FlatList,
+  Share,
 } from 'react-native';
 import {logoutAction} from '../../modules/signin/actions';
 import {hideTabBarAction} from '../../modules/app/actions';
@@ -26,7 +28,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import MyHeader from '../../components/header';
 import titleScreen from '../../constants/titleKeys';
 import CommonStyles, {DIMENSION} from '../../styles/common';
-import {Badge, Avatar} from 'react-native-paper';
+import {Badge, Avatar, Appbar} from 'react-native-paper';
 import images from '../../assets/images';
 import {ScrollView} from 'react-native-gesture-handler';
 import {
@@ -44,7 +46,8 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { wait } from '../../util/helper';
+import {wait} from '../../util/helper';
+import ItemSeparatorView from '../../components/list/ItemSeparatorView';
 
 const data = [
   {image: images.ic_tabar_profile, name: 'linh pham pham pham'},
@@ -53,6 +56,44 @@ const data = [
   {image: images.ic_tabar_profile, name: 'linh4'},
   {image: images.ic_tabar_profile, name: 'linh5'},
   {image: images.ic_tabar_profile, name: 'linh6'},
+];
+const data2 = [
+  {
+    id: 1,
+    name: 'Pham Linh',
+    subName: 'linhh.phv',
+    date: "June '23",
+    image: images.ic_tabar_profile,
+    title: ' Suy nghĩ của 1 lập trình viên (Phần 1)',
+    content: 'this is content, helo everybody',
+  },
+  {
+    id: 2,
+    name: 'Linh Pham',
+    subName: 'linhh.ph',
+    date: "June '24",
+    image: null,
+    title: 'Suy nghĩ của 1 lập trình viên (Phần 2)',
+    content: 'this is content, helo everybody',
+  },
+  {
+    id: 3,
+    name: 'Pham Linh',
+    subName: 'linhh.phv',
+    date: "June '25",
+    image: images.ic_tabar_profile,
+    title: 'This is Tittle',
+    content: 'this is content, helo everybody',
+  },
+  {
+    id: 4,
+    name: 'Pham Linh',
+    subName: 'linhh.phv',
+    date: "June '26",
+    image: null,
+    title: 'This is Tittle',
+    content: 'this is content, helo everybody',
+  },
 ];
 
 const HomeScreen = (props: any) => {
@@ -66,9 +107,11 @@ const HomeScreen = (props: any) => {
 
   // local state
   const [hideHeader, setHideHeader] = useState(true);
-  const [isRecent, setRecent] = useState('Recent');
+  const [heart, setHeart] = useState(false);
+  const [isRecent, setRecent] = useState('Recent Posts');
   const [value, setValue] = useState('');
   const [refreshing, setRefreshing] = useState(false);
+  const buttonsPosts = ['Recent Posts', 'Following'];
 
   useEffect(() => {
     if (isFocused) {
@@ -82,7 +125,7 @@ const HomeScreen = (props: any) => {
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
+    wait(1000).then(() => setRefreshing(false));
   }, []);
 
   const _pressSearch = () => {
@@ -151,77 +194,108 @@ const HomeScreen = (props: any) => {
   const selectPostsView = () => {
     return (
       <View style={{backgroundColor: Colors.WHITE}}>
-        <View style={{...flexRow(false, 20), justifyContent: 'flex-start'}}>
-          <TouchableOpacity onPress={() => setRecent('Recent')}>
-            <Text
-              style={{
-                fontSize: scaleFont(18),
-                fontWeight: '600',
-                paddingVertical: scaleSize(10),
-              }}>
-              Recent Posts
-            </Text>
-            {isRecent == 'Recent' && (
-              <Badge
+        <View style={{...flexRow(true, 20)}}>
+          {buttonsPosts.map((item, key) => {
+            return (
+              <TouchableOpacity
+                key={key}
+                onPress={() => setRecent(item)}
                 style={{
-                  backgroundColor: '#7F5DF0',
-                  alignSelf: 'center',
-                  paddingHorizontal: 20,
-                  height: 5,
-                }}
-                size={10}
-              />
-            )}
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{marginLeft: scaleSize(20)}}
-            onPress={() => setRecent('Following')}>
-            <Text
-              style={{
-                fontSize: scaleFont(18),
-                fontWeight: '600',
-                paddingVertical: scaleSize(10),
-              }}>
-              Following
-            </Text>
-            {isRecent == 'Following' && (
-              <Badge
-                style={{
-                  backgroundColor: '#7F5DF0',
-                  alignSelf: 'center',
-                  paddingHorizontal: 20,
-                  height: 5,
-                }}
-                size={10}
-              />
-            )}
-          </TouchableOpacity>
+                  alignItems: 'center',
+                  flex: 1,
+                }}>
+                <Text
+                  style={{
+                    fontSize: scaleFont(18),
+                    fontWeight: '600',
+                    paddingVertical: scaleSize(10),
+                  }}>
+                  {item}
+                </Text>
+                {isRecent == item && (
+                  <Badge
+                    style={{
+                      backgroundColor: '#7F5DF0',
+                      alignSelf: 'center',
+                      paddingHorizontal: 20,
+                      height: 5,
+                    }}
+                    size={10}
+                  />
+                )}
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
     );
   };
 
-  const postsView = () => {
+  const _pressPostsItem = () => {
+    // Alert.alert('heo');
+  };
+
+  const _pressHeart = () => {
+    setHeart(true);
+  };
+
+  const _pressShare = async () => {
+    try {
+      const result = await Share.share({
+        title: 'App link',
+        message:
+          'Please install this app and stay safe , AppLink :https://play.google.com/store/apps/details?id=nic.goi.aarogyasetu&hl=en',
+        url: 'https://play.google.com/store/apps/details?id=nic.goi.aarogyasetu&hl=en',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      Alert.alert(error.message);
+    }
+  };
+
+  const renderItem = ({item}: any) => {
     return (
-      <View
+      <TouchableOpacity
+        activeOpacity={0.9}
+        onPress={_pressPostsItem}
         style={{
           backgroundColor: Colors.WHITE,
-          height: 1000,
-          alignItems: 'center',
         }}>
-        <View style={{...flexRow(true, 20, 20), width: '100%'}}>
+        <View
+          style={{
+            ...flexRow(true, 20, 20),
+            width: '100%',
+          }}>
           <View
             style={{
               flexDirection: 'row',
               flex: 7,
+              height: scaleSize(40),
             }}>
             <Avatar.Image
-              size={scaleSize(30)}
+              size={scaleSize(40)}
               source={images.ic_tabar_profile}
+              style={{
+                justifyContent: 'center',
+                height: '100%',
+                backgroundColor: 'transparent',
+              }}
             />
-            <View style={{paddingLeft: 10, justifyContent: 'center'}}>
+            <View
+              style={{paddingLeft: scaleSize(10), justifyContent: 'center'}}>
               <Text style={{...CommonStyles.textNor}} numberOfLines={1}>
-                Linh Pham
+                {item?.name?.trim()}
+              </Text>
+              <Text style={{...CommonStyles.textLow}} numberOfLines={1}>
+                {item?.subName?.trim()}
               </Text>
             </View>
           </View>
@@ -232,27 +306,103 @@ const HomeScreen = (props: any) => {
               flex: 3,
               alignItems: 'flex-end',
             }}>
-            <Text style={{...CommonStyles.textNor}}>22:17</Text>
+            <Text style={{...CommonStyles.textNor}}>{item?.date}</Text>
           </View>
         </View>
 
         <View
           style={{
-            width: DIMENSION.WINDOW_WIDTH - 20,
-            height: DIMENSION.WINDOW_WIDTH - 20,
-            borderRadius: DIMENSION.borderRadiusMax,
+            paddingHorizontal: scaleSize(20),
+            paddingBottom: scaleSize(10),
           }}>
-          <Image
-            source={images.ic_tabar_profile}
+          <Text
             style={{
-              width: '100%',
-              height: '100%',
-              backgroundColor: Colors.TAG,
-              borderRadius: DIMENSION.borderRadiusMax,
-            }}
-          />
+              ...CommonStyles.textHigh,
+              paddingBottom: scaleSize(5),
+            }}>
+            {item?.title?.trim()}
+          </Text>
+          <Text
+            numberOfLines={3}
+            style={{
+              ...CommonStyles.textMid,
+              lineHeight: scaleFont(20),
+            }}>
+            Một dịp hiếm hoi tôi được ngồi ăn trưa với mấy đứa bạn học chung hồi
+            đại học. Cả bọn đều đang làm cho các công ty phần mềm lớn, ngót ngét
+            cũng được hơn 2 năm rồi. Dạo này bên mày “cày” dữ không? Cũng như
+            trước. Bị bên kia nó dí giữ quá. … Bây giờ tao nhận ra rằng đi làm
+            phần mềm là một sai lầm. Tưởng rằng lương cao chứ thật ra chẳng bằng
+            ai. Tao thấy mấy đứa bạn đi làm mấy ngành khác sướng hơn nhiều. Mấy
+            đứa đi làm sales giàu quá trời. Còn mấy đứa bạn tao đi làm bên ngành
+            ngân hàng cũng đã lắm. Tính ra thì học y hoặc dược hơi cực nhưng bây
+            giờ đứa nào cũng ngon lành. Câu chuyện tiếp tục với đề tài liên quan
+            đến các ngành nghề khác. Ở thời buổi này thì cả bọn thấy làm nghề gì
+            cũng sướng hết, vừa có thu nhập cao lại vừa lý thú, trừ cái nghề lập
+            trình viên mà cả bọn đang theo đuổi!
+          </Text>
         </View>
-      </View>
+
+        {item.image && (
+          <View
+            style={{
+              height: (DIMENSION.WINDOW_WIDTH * 3) / 4,
+              width: DIMENSION.WINDOW_WIDTH,
+            }}>
+            <Image
+              source={images.ic_tabar_profile}
+              style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: Colors.TAG,
+              }}
+              resizeMode="cover"
+            />
+          </View>
+        )}
+        <View
+          style={{
+            ...flexRow(true, 20, 0),
+            width: '100%',
+          }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Appbar.Action
+              icon={heart ? 'cards-heart' : 'heart-outline'}
+              color={heart ? Colors.LIKE : Colors.BLACK}
+              onPress={_pressHeart}
+            />
+            <Text>464</Text>
+          </View>
+          <View style={{}}>
+            <Appbar.Action
+              icon={'share-variant'}
+              color={Colors.BLACK}
+              onPress={_pressShare}
+            />
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
+
+  const _separatorComponent = () => {
+    return <ItemSeparatorView height={10} />;
+  };
+
+  const postsView = () => {
+    return (
+      <>
+        <FlatList
+          data={data2}
+          renderItem={renderItem}
+          ItemSeparatorComponent={_separatorComponent}
+          keyExtractor={item => item.id.toString()}
+        />
+      </>
     );
   };
 
@@ -269,14 +419,19 @@ const HomeScreen = (props: any) => {
 
       <KeyboardAwareScrollView
         ref={refScrollTop}
-        style={{flex: 1}}
         showsVerticalScrollIndicator={false}
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        {storyView()}
-        {selectPostsView()}
-        {postsView()}
+        <View
+          style={{
+            paddingBottom: scaleSize(Platform.OS == 'android' ? 110 : 120),
+            backgroundColor: Colors.WHITE,
+          }}>
+          {storyView()}
+          {selectPostsView()}
+          {postsView()}
+        </View>
       </KeyboardAwareScrollView>
     </>
   );

@@ -14,6 +14,15 @@ const CommonStyles = StyleSheet.create({
   textNor: {
     fontSize: scaleFont(16),
   },
+  textLow: {
+    fontSize: scaleFont(12),
+  },
+  textMid: {
+    fontSize: scaleFont(14),
+  },
+  textHigh: {
+    fontSize: scaleFont(20),
+  },
 });
 export default CommonStyles;
 export const DIMENSION = {

@@ -7,6 +7,7 @@ import {
   Dimensions,
   StatusBar,
   Text,
+  ImageBackground,
 } from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
@@ -25,6 +26,7 @@ interface Props {
   pressRight?: Function;
   pressBack?: Function;
   back?: boolean;
+  height?: number;
 }
 const MyHeader = (props: Props) => {
   const {
@@ -36,6 +38,7 @@ const MyHeader = (props: Props) => {
     back,
     subTitle,
     pressBack,
+    height,
   } = props;
 
   return (
@@ -47,42 +50,56 @@ const MyHeader = (props: Props) => {
       />
       <Appbar.Header
         style={{
-          backgroundColor: Colors.WHITE,
+          backgroundColor: height ? 'transparent' : Colors.WHITE,
           borderBottomWidth: 0.2,
           borderBottomColor: '#7F5DF0',
           ...styles.shadow,
-          height: DIMENSION.height_header,
+          height: height ? scaleSize(height) : DIMENSION.height_header,
+          width: DIMENSION.WINDOW_WIDTH,
+          // position: 'absolute',
         }}>
-        {back && <Appbar.BackAction onPress={() => pressBack && pressBack()} />}
-        <Appbar.Content
-          title={title}
-          titleStyle={{
-            color: '#7F5DF0',
-            fontSize: scaleFont(30),
-            fontWeight: 'bold',
-          }}
-          subtitle={subTitle?.toUpperCase()}
-          subtitleStyle={{fontSize: scaleFont(12)}}
-        />
-        {iconLeft ? (
-          <Appbar.Action
-            icon={iconLeft}
-            onPress={() => pressLeft && pressLeft()}
-            style={{backgroundColor: Colors.TAG}}
+        <ImageBackground
+          source={height ? images.ic_tabar_profile : null}
+          resizeMode="cover"
+          style={{
+            width: '100%',
+            height: '100%',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+          }}>
+          {back && (
+            <Appbar.BackAction onPress={() => pressBack && pressBack()} />
+          )}
+          <Appbar.Content
+            title={title}
+            titleStyle={{
+              color: '#7F5DF0',
+              fontSize: scaleFont(30),
+              fontWeight: 'bold',
+            }}
+            subtitle={subTitle?.toUpperCase()}
+            subtitleStyle={{fontSize: scaleFont(12)}}
           />
-        ) : (
-          <View />
-        )}
+          {iconLeft ? (
+            <Appbar.Action
+              icon={iconLeft}
+              onPress={() => pressLeft && pressLeft()}
+              style={{backgroundColor: Colors.TAG}}
+            />
+          ) : (
+            <View />
+          )}
 
-        {iconRight ? (
-          <Appbar.Action
-            icon={iconRight}
-            onPress={() => pressRight && pressRight()}
-            style={{backgroundColor: Colors.TAG}}
-          />
-        ) : (
-          <View />
-        )}
+          {iconRight ? (
+            <Appbar.Action
+              icon={iconRight}
+              onPress={() => pressRight && pressRight()}
+              style={{backgroundColor: Colors.TAG}}
+            />
+          ) : (
+            <View />
+          )}
+        </ImageBackground>
       </Appbar.Header>
     </>
   );
