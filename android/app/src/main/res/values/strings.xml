@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">blogApp</string>
+    <string moduleConfig="true" name="CodePushDeploymentKey">_1kHyUNHxm2f5HCx1dujOLsI3ojOPD5oADAQ6</string>
 </resources>

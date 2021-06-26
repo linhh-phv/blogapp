@@ -1,15 +1,9 @@
 import {StyleSheet, Platform, Dimensions} from 'react-native';
+import {checkPlatform} from '../util/helper';
 import {boxShadow, scaleFont, scaleSize} from './mixins';
 
 const CommonStyles = StyleSheet.create({
-  shadow: boxShadow(
-    '#7F5DF0',
-    0,
-    10,
-    3.5,
-    0.25,
-    Platform.OS == 'android' ? 10 : 5,
-  ),
+  shadow: boxShadow('#7F5DF0', 0, 10, 3.5, 0.25, checkPlatform<number>(10, 5)),
 
   textNor: {
     fontSize: scaleFont(16),

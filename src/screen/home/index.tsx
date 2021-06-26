@@ -6,8 +6,6 @@ import {
   TextInput,
   Keyboard,
   Alert,
-  Platform,
-  StatusBar,
   Image,
   ImageBackground,
   StyleSheet,
@@ -46,7 +44,7 @@ import {
   SafeAreaView,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import {wait} from '../../util/helper';
+import {checkPlatform, wait} from '../../util/helper';
 import ItemSeparatorView from '../../components/list/ItemSeparatorView';
 
 const data = [
@@ -425,7 +423,7 @@ const HomeScreen = (props: any) => {
         }>
         <View
           style={{
-            paddingBottom: scaleSize(Platform.OS == 'android' ? 110 : 120),
+            paddingBottom: scaleSize(checkPlatform<number>(110, 120)),
             backgroundColor: Colors.WHITE,
           }}>
           {storyView()}
@@ -439,14 +437,7 @@ const HomeScreen = (props: any) => {
 export default HomeScreen;
 
 const styles = StyleSheet.create({
-  shadow: boxShadow(
-    '#7F5DF0',
-    0,
-    10,
-    3.5,
-    0.25,
-    Platform.OS == 'android' ? 10 : 5,
-  ),
+  shadow: boxShadow('#7F5DF0', 0, 10, 3.5, 0.25, checkPlatform<number>(10, 5)),
 
   storyView_viewAll: {
     backgroundColor: Colors.TAG,

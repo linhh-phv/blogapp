@@ -3,7 +3,6 @@ import {
   View,
   Image,
   StyleSheet,
-  Platform,
   Dimensions,
   StatusBar,
   Text,
@@ -16,6 +15,7 @@ import {Appbar} from 'react-native-paper';
 import {boxShadow, scaleFont, scaleSize} from '../../styles/mixins';
 import {DIMENSION} from '../../styles/common';
 import {Colors} from '../../styles';
+import {checkPlatform} from '../../util/helper';
 
 interface Props {
   title?: string;
@@ -105,6 +105,6 @@ const MyHeader = (props: Props) => {
   );
 };
 const styles = StyleSheet.create({
-  shadow: boxShadow('#000', 0, 0, 0, 0, Platform.OS == 'android' ? 0 : 0),
+  shadow: boxShadow('#000', 0, 0, 0, 0, checkPlatform<number>(0, 0)),
 });
 export default MyHeader;
